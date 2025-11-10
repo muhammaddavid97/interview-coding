@@ -38,4 +38,4 @@ jobs:
             docker pull ${{ secrets.DOCKER_USERNAME }}/demo-workflow:latest
             docker stop $CONTAINER_NAME || true
             docker rm $CONTAINER_NAME || true
-            docker run -d --name $CONTAINER_NAME -p 3000:3000 ${{ secrets.DOCKER_USERNAME }}/demo-workflow:latest
+            docker run -d --name my-employee -p 3000:3000 ${{ secrets.DOCKER_USERNAME }}/demo-workflow:latest
