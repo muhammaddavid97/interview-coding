@@ -15,7 +15,11 @@ router.post('/insertEmployee', async (req, res) => {
         Email: req.body.Email
     }
 
-    await insertNewDataEmployee(reqBody)
+    let results = await insertNewDataEmployee(reqBody)
+
+    if (results.affectedRows < 1){
+        res.status(404).json({message: "Data truncate on Department column"})
+    }
     
     res.status(201).json({message: "Data berhasil dikirim"})
 
@@ -82,13 +86,11 @@ router.get("/Get/employees/search", async (req, res) => {
 router.delete("/deleteEmployeeById/:id", async (req, res) => {
 
     let { id } = req.params 
-    console.log(id)
     try{
 
        const results = await deleteEmployeeById(id)
-       console.log(results)
 
-        if (!results || results.affectedRows === 0) {
+        if (results.affectedRows === 0) {
             return res.status(404).send({ message: `Employee with ID ${id} not found.` });
         }
 

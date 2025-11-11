@@ -4,11 +4,13 @@ let conection = null
 async function insertNewDataEmployee(employee){
 
     const {EmployeeId, Name, Address, Department, Email} = employee
+    let data = null
 
     try{
         conection = await getConnection()
         const sql = "INSERT INTO employe VALUES (?, ?, ?, ?, ?)";
-        await conection.query(sql, [EmployeeId, Name, Address, Department, Email])
+        data = await conection.query(sql, [EmployeeId, Name, Address, Department, Email]).then(item => item)
+
     }
     catch(err){
         console.log(err)
@@ -19,6 +21,8 @@ async function insertNewDataEmployee(employee){
             conection.release(); 
         }
     }
+
+    return data
 }
 
 async function getEmployees(){
@@ -115,6 +119,7 @@ async function getSearchEmployee(name, department){
 
 async function deleteEmployeeById(employeeId){
 
+    let result = null
     try{
 
         let temp = []
@@ -132,7 +137,7 @@ async function deleteEmployeeById(employeeId){
 
         sql += " WHERE " + temp.join()
         
-        await conection.query(sql, [employeeId])
+        result = await conection.query(sql, [employeeId]).then(item => item)
     }
     catch(err){
         console.log(err)
@@ -143,6 +148,8 @@ async function deleteEmployeeById(employeeId){
             conection.release()
         }
     }
+
+    return result
 }
 
 module.exports = {
