@@ -35,6 +35,7 @@ jobs:
           username: ubuntu
           key: ${{ secrets.EC2_SSH_KEY }}
           script: |
+            docker create network cifro-inc
             docker pull ${{ secrets.DOCKER_USERNAME }}/demo-workflow:latest
             docker stop $CONTAINER_NAME || true
             docker rm $CONTAINER_NAME || true
